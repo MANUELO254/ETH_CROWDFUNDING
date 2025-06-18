@@ -15,8 +15,10 @@ jobs:
 
     name: Foundry project
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -24,20 +26,16 @@ jobs:
         uses: foundry-rs/foundry-toolchain@v1
 
       - name: Show Forge version
-        run: |
-          forge --version
+        run: forge --version
 
-      - name: Run Forge fmt
-        run: |
-          forge fmt --check
+      - name: Check formatting with Forge
+        run: forge fmt --check
         id: fmt
 
-      - name: Run Forge build
-        run: |
-          forge build --sizes
+      - name: Build with Forge
+        run: forge build --sizes
         id: build
 
       - name: Run Forge tests
-        run: |
-          forge test -vvv
+        run: forge test -vvv
         id: test
