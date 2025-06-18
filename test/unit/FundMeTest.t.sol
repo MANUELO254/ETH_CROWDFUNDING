@@ -71,11 +71,10 @@ contract FundMeTest is Test {
         fundMe.withdraw();
     }
 
-    function testWithdrawWithASingleFunder() public funded{
+    function testWithdrawWithASingleFunder() public funded {
         //Arrange
         uint256 startingOwnwerBalance = fundMe.getOwner().balance;
         uint256 startingfundMeBalance = address(fundMe).balance;
-
 
         //Act
         uint256 gasStart = gasleft();
@@ -90,26 +89,19 @@ contract FundMeTest is Test {
         uint256 endingOwnerBalance = fundMe.getOwner().balance;
         uint256 endingfundMeBalance = address(fundMe).balance;
         assertEq(endingfundMeBalance, 0, "FundMe balance should be 0 after withdrawal");
-        assertEq(
-            startingfundMeBalance + startingOwnwerBalance,
-            endingOwnerBalance
-        );
-
-
+        assertEq(startingfundMeBalance + startingOwnwerBalance, endingOwnerBalance);
     }
 
     function testWthdrawFromMultipleFunders() public funded {
         // Arrange
         uint160 numberOfFunders = 10;
-        uint160 startingFunderIndex =1;
+        uint160 startingFunderIndex = 1;
         for (uint160 i = startingFunderIndex; i < numberOfFunders; i++) {
-           // vm.prank(address(uint160(i + 1)));
+            // vm.prank(address(uint160(i + 1)));
             //fundMe.fund{value: SEND_VALUE}();
 
             hoax(address(i), SEND_VALUE); // Simulate a user sending SEND_VALUE ETH
             fundMe.fund{value: SEND_VALUE}();
-
-
         }
         uint256 startingOwnwerBalance = fundMe.getOwner().balance;
         uint256 startingfundMeBalance = address(fundMe).balance;
@@ -120,27 +112,21 @@ contract FundMeTest is Test {
         vm.stopPrank();
 
         // Assert
-        
+
         assert(address(fundMe).balance == 0);
-        assert(
-            startingfundMeBalance + startingOwnwerBalance ==
-            fundMe.getOwner().balance
-           
-        );
+        assert(startingfundMeBalance + startingOwnwerBalance == fundMe.getOwner().balance);
     }
 
     function testWthdrawFromMultipleFundersCheaper() public funded {
         // Arrange
         uint160 numberOfFunders = 10;
-        uint160 startingFunderIndex =1;
+        uint160 startingFunderIndex = 1;
         for (uint160 i = startingFunderIndex; i < numberOfFunders; i++) {
-           // vm.prank(address(uint160(i + 1)));
+            // vm.prank(address(uint160(i + 1)));
             //fundMe.fund{value: SEND_VALUE}();
 
             hoax(address(i), SEND_VALUE); // Simulate a user sending SEND_VALUE ETH
             fundMe.fund{value: SEND_VALUE}();
-
-
         }
         uint256 startingOwnwerBalance = fundMe.getOwner().balance;
         uint256 startingfundMeBalance = address(fundMe).balance;
@@ -151,12 +137,8 @@ contract FundMeTest is Test {
         vm.stopPrank();
 
         // Assert
-        
+
         assert(address(fundMe).balance == 0);
-        assert(
-            startingfundMeBalance + startingOwnwerBalance ==
-            fundMe.getOwner().balance
-           
-        );
+        assert(startingfundMeBalance + startingOwnwerBalance == fundMe.getOwner().balance);
     }
 }
